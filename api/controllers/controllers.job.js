@@ -39,6 +39,13 @@ class ControllerJob {
                             "$sum": 1.0
                         }
                     }
+                },
+                {
+                    "$project": {
+                        "_id": 0.0,
+                        "date": "$_id",
+                        "count": "$count"
+                    }
                 }
             ]
         );;
@@ -63,6 +70,13 @@ class ControllerJob {
                         "count": {
                             "$sum": 1.0
                         }
+                    }
+                },
+                {
+                    "$project": {
+                        "_id": 0.0,
+                        "company": "$_id",
+                        "count": "$count"
                     }
                 }
             ]
