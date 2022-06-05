@@ -35,7 +35,7 @@ class ControllerJob {
                                 "date": "$date"
                             }
                         },
-                        "count": {
+                        "offers": {
                             "$sum": 1.0
                         }
                     }
@@ -44,7 +44,12 @@ class ControllerJob {
                     "$project": {
                         "_id": 0.0,
                         "date": "$_id",
-                        "count": "$count"
+                        "offers": "$offers"
+                    }
+                },
+                {
+                    "$sort": {
+                        "date": 1.0
                     }
                 }
             ]
@@ -67,7 +72,7 @@ class ControllerJob {
                 {
                     "$group": {
                         "_id": { $toUpper: "$company" },
-                        "count": {
+                        "offers": {
                             "$sum": 1.0
                         }
                     }
@@ -76,7 +81,12 @@ class ControllerJob {
                     "$project": {
                         "_id": 0.0,
                         "company": "$_id",
-                        "count": "$count"
+                        "offers": "$offers"
+                    }
+                },
+                {
+                    "$sort": {
+                        "offers": -1.0
                     }
                 }
             ]
