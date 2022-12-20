@@ -25,6 +25,7 @@
     "express-swagger-generator": "^1.1.17",
     "glob": "^8.0.3",
     "mongoose": "^6.3.5",
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.16"
   }
 }

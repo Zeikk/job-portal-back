@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const glob = require('glob');
 const cors = require('cors');
 const mongoose = require('mongoose');
-
+const morgan = require('morgan')
 const swaggerDoc = require('./common/swagger')
 const config = require('./common/config');
 
@@ -14,6 +14,7 @@ const expressSwagger = require('express-swagger-generator')(app);
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(morgan('tiny'));
 
 expressSwagger(swaggerDoc);
 

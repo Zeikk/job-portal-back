@@ -1,3 +1,5 @@
+const config = require('./config')
+
 const swaggerDoc = {
     swaggerDefinition: {
         info: {
@@ -5,8 +7,8 @@ const swaggerDoc = {
             title: 'Swagger',
             version: '1.0.0',
         },
-        host: 'localhost:3000',
-        basePath: '/v1',
+        host: `${config.HOST}:${config.PORT}`,
+        basePath: '',
         produces: [
             "application/json",
         ],
