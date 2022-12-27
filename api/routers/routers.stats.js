@@ -3,6 +3,8 @@ const ControllerStats = require('../controllers/controllers.stats');
 
 const router = express.Router();
 
+const SOURCES = ['INDEED', 'LINKEDIN', 'WELCOME TO THE JUNGLE']
+
 module.exports = (app) => {
 
     /** 
@@ -10,14 +12,15 @@ module.exports = (app) => {
      * @route GET /stats/{theme}/count
      * @group stats
      * @param {string} theme.path.required
-     * @param {string} date.query.required
+     * @param {string} date.query
+     * @param {string} source.query
      * @returns {Array.<string>} 200 - Tableau des noms de jeux
      * @returns {Error} default - Unexpected error
      */
     router.get('/:theme/count', async (req, res) => {
         try {
             const { theme } = req.params;
-            const { date } = req.query;
+            const { date, source } = req.query;
 
             const parsedDate = new Date()
             if (date) {
@@ -26,7 +29,11 @@ module.exports = (app) => {
                 parsedDate.setTime(0);
             }
 
-            res.json(await ControllerStats.countJobs(theme, parsedDate));
+            let sources = SOURCES
+            if (source)
+                sources = [source]
+
+            res.json(await ControllerStats.countJobs(theme, parsedDate, sources));
         } catch (err) {
             console.log("Err : " + err.stack);
             res.status(400).json({ error: err.message });
@@ -38,14 +45,15 @@ module.exports = (app) => {
      * @route GET /stats/{theme}/offers
      * @group stats
      * @param {string} theme.path.required
-     * @param {string} date.query.required
+     * @param {string} date.query
+     * @param {string} source.query
      * @returns {Array.<string>} 200 - Tableau des noms de jeux
      * @returns {Error} default - Unexpected error
      */
     router.get('/:theme/offers', async (req, res) => {
         try {
             const { theme } = req.params;
-            const { date } = req.query;
+            const { date, source } = req.query;
 
             const parsedDate = new Date()
             if (date) {
@@ -54,7 +62,11 @@ module.exports = (app) => {
                 parsedDate.setTime(0);
             }
 
-            res.json(await ControllerStats.getNbOffers(theme, parsedDate));
+            let sources = SOURCES
+            if (source)
+                sources = [source]
+
+            res.json(await ControllerStats.getNbOffers(theme, parsedDate, sources));
         } catch (err) {
             console.log("Err : " + err.stack);
             res.status(400).json({ error: err.message });
@@ -66,14 +78,15 @@ module.exports = (app) => {
      * @route GET /stats/{theme}/company
      * @group stats
      * @param {string} theme.path.required
-     * @param {string} date.query.required
+     * @param {string} date.query
+     * @param {string} source.query
      * @returns {Array.<string>} 200 - Tableau des noms de jeux
      * @returns {Error} default - Unexpected error
      */
     router.get('/:theme/company', async (req, res) => {
         try {
             const { theme } = req.params;
-            const { date } = req.query;
+            const { date, source } = req.query;
 
             const parsedDate = new Date()
             if (date) {
@@ -82,7 +95,11 @@ module.exports = (app) => {
                 parsedDate.setTime(0);
             }
 
-            res.json(await ControllerStats.getCompanyOffers(theme, parsedDate));
+            let sources = SOURCES
+            if (source)
+                sources = [source]
+
+            res.json(await ControllerStats.getCompanyOffers(theme, parsedDate, sources));
         } catch (err) {
             console.log("Err : " + err.stack);
             res.status(400).json({ error: err.message });

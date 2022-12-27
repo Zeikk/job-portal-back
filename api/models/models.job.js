@@ -13,6 +13,8 @@ const schema = new mongoose.Schema(
         title: String,
         href: String,
         company: String,
+        location: String,
+        source: String,
         date: Date
     }
 );
