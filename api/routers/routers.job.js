@@ -2,6 +2,7 @@ const express = require('express');
 const ControllerJob = require('../controllers/controllers.job');
 
 const router = express.Router();
+const SOURCES = ['INDEED', 'LINKEDIN', 'WELCOME TO THE JUNGLE']
 
 module.exports = (app) => {
 
@@ -10,14 +11,15 @@ module.exports = (app) => {
      * @route GET /job/{theme}/all
      * @group job
      * @param {string} theme.path.required
-     * @param {string} date.query.required
+     * @param {string} date.query
+     * @param {string} source.query
      * @returns {Array.<string>} 200 - Tableau des noms de jeux
      * @returns {Error} default - Unexpected error
      */
     router.get('/:theme/all', async (req, res) => {
         try {
             const { theme } = req.params;
-            const { date } = req.query;
+            const { date, source } = req.query;
 
             const parsedDate = new Date()
             if (date) {
@@ -26,7 +28,11 @@ module.exports = (app) => {
                 parsedDate.setTime(0);
             }
 
-            res.json(await ControllerJob.getJobs(theme, parsedDate));
+            let sources = SOURCES
+            if (source)
+                sources = [source]
+
+            res.json(await ControllerJob.getJobs(theme, parsedDate, sources));
         } catch (err) {
             console.log("Err : " + err.stack);
             res.status(400).json({ error: err.message });

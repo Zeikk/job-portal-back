@@ -3,18 +3,21 @@ const JobSchema = require('../models/models.job');
 
 class ControllerStats {
 
-    countJobs = async (theme, date) => {
+    countJobs = async (theme, date, sources) => {
         const db = ServicesMongo.switchDatabase(theme);
         const JobModel = db.model('jobs', JobSchema);
 
         return await JobModel.count({
             date: {
                 $gt: date
+            },
+            source: {
+                $in: sources
             }
         });
     }
 
-    getNbOffers = async (theme, date) => {
+    getNbOffers = async (theme, date, sources) => {
         const db = ServicesMongo.switchDatabase(theme);
         const JobModel = db.model('jobs', JobSchema);
 
@@ -24,6 +27,9 @@ class ControllerStats {
                     "$match": {
                         "date": {
                             "$gt": date
+                        },
+                        "source": {
+                            "$in": sources
                         }
                     }
                 },
@@ -56,7 +62,7 @@ class ControllerStats {
         );
     }
 
-    getCompanyOffers = async (theme, date) => {
+    getCompanyOffers = async (theme, date, sources) => {
         const db = ServicesMongo.switchDatabase(theme);
         const JobModel = db.model('jobs', JobSchema);
 
@@ -66,6 +72,9 @@ class ControllerStats {
                     "$match": {
                         "date": {
                             "$gt": date
+                        },
+                        "source": {
+                            "$in": sources
                         }
                     }
                 },
